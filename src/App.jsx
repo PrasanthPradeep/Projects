@@ -55,10 +55,12 @@ function App() {
         />
       </div>
 
-      <main className="relative">
-        <section id="home" className="mb-24">
-          <p className="ubuntu-bold text-3xl md:text-6xl lg:text-[8rem]">Welcome</p>
-          <p className="text-2xl md:text-3xl lg:text-[1rem] leading-relaxed">
+      <main className="relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 py-20 md:py-32 max-w-7xl mx-auto">
+        <section id="home" className="mb-16 md:mb-24">
+          <p className="ubuntu-bold text-7xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[8rem] leading-tight mb-4 md:mb-6">
+            Welcome
+          </p>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl">
             This is the projects landing section.
           </p>
         </section>
