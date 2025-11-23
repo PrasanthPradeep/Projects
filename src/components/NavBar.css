@@ -64,6 +64,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin-right: 10px;
 }
 
 .pill-logo img {
