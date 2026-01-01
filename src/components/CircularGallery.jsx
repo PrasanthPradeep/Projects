@@ -1,5 +1,5 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function debounce(func, wait) {
   let timeout;
@@ -102,11 +102,13 @@ class Media {
     scene,
     screen,
     text,
+    description,
     viewport,
     bend,
     textColor,
     borderRadius = 0,
-    font
+    font,
+    link
   }) {
     this.extra = 0;
     this.geometry = geometry;
@@ -118,11 +120,13 @@ class Media {
     this.scene = scene;
     this.screen = screen;
     this.text = text;
+    this.description = description;
     this.viewport = viewport;
     this.bend = bend;
     this.textColor = textColor;
     this.borderRadius = borderRadius;
     this.font = font;
+    this.link = link;
     this.createShader();
     this.createMesh();
     this.createTitle();
@@ -260,6 +264,11 @@ class Media {
       this.isBefore = this.isAfter = false;
     }
   }
+  setTitleVisible(visible) {
+    if (this.title && this.title.mesh) {
+      this.title.mesh.visible = visible;
+    }
+  }
   onResize({ screen, viewport } = {}) {
     if (screen) this.screen = screen;
     if (viewport) {
@@ -289,7 +298,8 @@ class App {
       borderRadius = 0,
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
-      scrollEase = 0.05
+      scrollEase = 0.05,
+      onCenterItemChange
     } = {}
   ) {
     document.documentElement.classList.remove('no-js');
@@ -297,6 +307,8 @@ class App {
     this.scrollSpeed = scrollSpeed;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
+    this.onCenterItemChange = onCenterItemChange;
+    this.lastCenterIndex = -1;
     this.createRenderer();
     this.createCamera();
     this.createScene();
@@ -305,6 +317,15 @@ class App {
     this.createMedias(items, bend, textColor, borderRadius, font);
     this.update();
     this.addEventListeners();
+    
+    // Trigger initial center item
+    if (this.onCenterItemChange && this.medias && this.medias[0]) {
+      this.onCenterItemChange({
+        text: this.medias[0].text,
+        description: this.medias[0].description,
+        link: this.medias[0].link
+      });
+    }
   }
   createRenderer() {
     this.renderer = new Renderer({
@@ -332,18 +353,18 @@ class App {
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const defaultItems = [
-      { image: `https://picsum.photos/seed/1/800/600?grayscale`, text: 'Bridge' },
-      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Desk Setup' },
-      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'Waterfall' },
-      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Strawberries' },
-      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'Deep Diving' },
-      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Train Track' },
-      { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini' },
-      { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights' },
-      { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York' },
-      { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
-      { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
-      { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }
+      { image: `https://picsum.photos/seed/1/800/600?grayscale`, text: 'Bridge', description: 'A beautiful bridge project showcasing modern architecture.', link: 'https://prasanthp.me/' },
+      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Desk Setup', description: 'Minimalist workspace design for productivity.' },
+      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'Waterfall', description: 'Nature photography collection.' },
+      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Strawberries', description: 'Food photography and styling.' },
+      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'Deep Diving', description: 'Underwater exploration project.' },
+      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Train Track', description: 'Urban exploration series.' },
+      { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini', description: 'Travel photography from Greece.' },
+      { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights', description: 'Abstract light photography.' },
+      { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York', description: 'NYC street photography.' },
+      { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy', description: 'Pet photography portfolio.' },
+      { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline', description: 'Coastal landscape series.' },
+      { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees', description: 'Tropical vibes collection.' }
     ];
     const galleryItems = items && items.length ? items : defaultItems;
     this.mediasImages = galleryItems.concat(galleryItems);
@@ -358,11 +379,13 @@ class App {
         scene: this.scene,
         screen: this.screen,
         text: data.text,
+        description: data.description,
         viewport: this.viewport,
         bend,
         textColor,
         borderRadius,
-        font
+        font,
+        link: data.link
       });
     });
   }
@@ -370,16 +393,27 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = e.touches ? e.touches[0].clientX : e.clientX;
+    this.startY = e.touches ? e.touches[0].clientY : e.clientY;
+    this.hasMoved = false;
   }
   onTouchMove(e) {
     if (!this.isDown) return;
     const x = e.touches ? e.touches[0].clientX : e.clientX;
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+    if (Math.abs(distance) > 5) this.hasMoved = true;
     this.scroll.target = this.scroll.position + distance;
   }
   onTouchUp() {
+    if (!this.hasMoved && this.medias) {
+      // Click detected - check if we clicked on a media item
+      this.handleClick();
+    }
     this.isDown = false;
     this.onCheck();
+  }
+  handleClick() {
+    // Click handler - no longer opens links (use GitHub button instead)
+    // Keep this method for potential future click interactions
   }
   onWheel(e) {
     const delta = e.deltaY || e.wheelDelta || e.detail;
@@ -418,7 +452,35 @@ class App {
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
+    
+    // Update current center item for overlay
+    this.updateCenterItem();
+    
     this.raf = window.requestAnimationFrame(this.update.bind(this));
+  }
+  updateCenterItem() {
+    if (!this.medias || !this.medias[0]) return;
+    
+    const width = this.medias[0].width;
+    const currentIndex = Math.round(Math.abs(this.scroll.current) / width) % (this.mediasImages.length / 2);
+    
+    // Show all titles first, then hide the centered one
+    this.medias.forEach((media, index) => {
+      const mediaIndex = index % (this.mediasImages.length / 2);
+      media.setTitleVisible(mediaIndex !== currentIndex);
+    });
+    
+    if (this.lastCenterIndex !== currentIndex && this.onCenterItemChange) {
+      this.lastCenterIndex = currentIndex;
+      const centerMedia = this.medias[currentIndex];
+      if (centerMedia) {
+        this.onCenterItemChange({
+          text: centerMedia.text,
+          description: centerMedia.description,
+          link: centerMedia.link
+        });
+      }
+    }
   }
   addEventListeners() {
     this.boundOnResize = this.onResize.bind(this);
@@ -463,11 +525,58 @@ export default function CircularGallery({
   scrollEase = 0.05
 }) {
   const containerRef = useRef(null);
+  const [currentItem, setCurrentItem] = useState(null);
+  
   useEffect(() => {
-    const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase });
+    const app = new App(containerRef.current, { 
+      items, 
+      bend, 
+      textColor, 
+      borderRadius, 
+      font, 
+      scrollSpeed, 
+      scrollEase,
+      onCenterItemChange: setCurrentItem
+    });
     return () => {
       app.destroy();
     };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
-  return <div className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing" ref={containerRef} />;
+  
+  return (
+    <div className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing relative">
+      <div ref={containerRef} className="w-full h-full" />
+      
+      {/* Project Info Overlay - Bottom position with GitHub button on left */}
+      {currentItem && (
+        <div className="absolute bottom-2 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none w-[95%] sm:w-auto">
+          <div className="flex items-center justify-center gap-2 sm:gap-4 pointer-events-auto">
+            {/* GitHub/Link Button - Left side */}
+            {currentItem.link && (
+              <a
+                href={currentItem.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg"
+                onClick={(e) => e.stopPropagation()}
+                title="View Project"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="sm:w-6 sm:h-6">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+            )}
+            
+            {/* Project Info Card */}
+            <div className="bg-black/70 backdrop-blur-md rounded-xl px-3 py-2 sm:px-6 sm:py-4 text-center max-w-[280px] sm:max-w-lg border border-white/10">
+              <h3 className="text-white text-lg sm:text-2xl font-bold mb-1 sm:mb-2">{currentItem.text}</h3>
+              {currentItem.description && (
+                <p className="text-gray-300 text-xs sm:text-sm line-clamp-2 sm:line-clamp-none">{currentItem.description}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

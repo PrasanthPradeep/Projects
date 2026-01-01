@@ -47,7 +47,7 @@ function App() {
       />
       <button
         onClick={handleAIClick}
-        className="fixed bottom-6 right-6 sm:top-6 sm:bottom-auto z-50 p-2 sm:p-3 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-all border border-white/20 hover:scale-110"
+        className="fixed top-20 right-4 sm:top-[1em] sm:right-6 z-50 p-2 sm:p-3 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-all border border-white/20 hover:scale-110"
         aria-label="AI Chat">
         <img src={aiIcon} alt="AI Chat" className="w-6 h-6 sm:w-8 sm:h-8 object-contain invert" />
       </button>
