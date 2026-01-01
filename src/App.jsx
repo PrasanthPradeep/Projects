@@ -94,7 +94,8 @@ function App() {
               Welcome!
             </p>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto">
-              This is the projects landing section.
+              This is the projects landing section.<br />
+              !!Under development!! <br />(Built late at night with equal parts of code and caffeine.)
             </p>
           </section>
         </main>
