@@ -462,24 +462,35 @@ class App {
     if (!this.medias || !this.medias[0]) return;
     
     const width = this.medias[0].width;
-    const currentIndex = Math.round(Math.abs(this.scroll.current) / width) % (this.mediasImages.length / 2);
+    const itemCount = this.mediasImages.length / 2;
+    
+    // Find the media item closest to center (position x = 0)
+    let closestMedia = null;
+    let closestDistance = Infinity;
+    let closestIndex = 0;
+    
+    this.medias.forEach((media, index) => {
+      const distance = Math.abs(media.plane.position.x);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestMedia = media;
+        closestIndex = index % itemCount;
+      }
+    });
     
     // Show all titles first, then hide the centered one
     this.medias.forEach((media, index) => {
-      const mediaIndex = index % (this.mediasImages.length / 2);
-      media.setTitleVisible(mediaIndex !== currentIndex);
+      const mediaIndex = index % itemCount;
+      media.setTitleVisible(mediaIndex !== closestIndex);
     });
     
-    if (this.lastCenterIndex !== currentIndex && this.onCenterItemChange) {
-      this.lastCenterIndex = currentIndex;
-      const centerMedia = this.medias[currentIndex];
-      if (centerMedia) {
-        this.onCenterItemChange({
-          text: centerMedia.text,
-          description: centerMedia.description,
-          link: centerMedia.link
-        });
-      }
+    if (this.lastCenterIndex !== closestIndex && this.onCenterItemChange && closestMedia) {
+      this.lastCenterIndex = closestIndex;
+      this.onCenterItemChange({
+        text: closestMedia.text,
+        description: closestMedia.description,
+        link: closestMedia.link
+      });
     }
   }
   addEventListeners() {
