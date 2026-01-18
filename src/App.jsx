@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import './App.css'
 import NavBar from './components/NavBar'
-import logo from './assets/profile.jpg'
-import aiIcon from './assets/ai.png'
+import logo from '/public/images/profile.jpg'
+import aiIcon from '/public/images/ai.png'
 import Particles from './components/BG'
 import CircularGallery from './components/CircularGallery';
 
