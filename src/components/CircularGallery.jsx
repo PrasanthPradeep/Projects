@@ -179,13 +179,17 @@ class Media {
           );
           vec4 color = texture2D(tMap, uv);
           
+          // Convert to grayscale using luminance weights
+          float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+          vec3 grayscaleColor = vec3(gray);
+          
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
           
           // Smooth antialiasing for edges
           float edgeSmooth = 0.002;
           float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
           
-          gl_FragColor = vec4(color.rgb, alpha);
+          gl_FragColor = vec4(grayscaleColor, alpha);
         }
       `,
       uniforms: {
@@ -353,12 +357,12 @@ class App {
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const defaultItems = [
-      { image: `https://picsum.photos/seed/1/800/600?grayscale`, text: 'Bridge', description: 'A beautiful bridge project showcasing modern architecture.', link: 'https://prasanthp.me/' },
-      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Desk Setup', description: 'Minimalist workspace design for productivity.' },
-      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'Waterfall', description: 'Nature photography collection.' },
-      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Strawberries', description: 'Food photography and styling.' },
-      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'Deep Diving', description: 'Underwater exploration project.' },
-      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Train Track', description: 'Urban exploration series.' },
+      { image: `/src/assets/prismbrowser_web.png?grayscale`, text: 'Prism Browser Website', description: 'An optimized official Webpage of Prism AI Browser', link: 'https://prismbrowser.tech', link: 'https://github.com/Prismaibrowser/web' },
+      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Protego', description: 'A real-time Personal Protective Equipment (PPE) detection system using YOLOv8 and computer vision.', link: 'https://github.com/PrasanthPradeep/protego' },
+      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'ChatBuddy', description: 'AI companion powered by the Llama 2 model.', link: 'https://github.com/PrasanthPradeep/saturday-hack-night-langchain' },
+      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Poinsettia', description: 'A Secret Santa gift exchange app that automatically matches participants at a scheduled time Built on fun with FastAPI, React, and scheduled reveal logic.', link: 'https://github.com/PrasanthPradeep/Poinsettia' },
+      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'KTUgrade', description: 'A webapp made for Kerala Technical University B.Tech Students to monitor their grades and plan.', link: 'https://github.com/PrasanthPradeep/ktugrade' },
+      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Aura AI Chat', description: 'An AI app developed for AI Glance in prism browser.', link: 'https://github.com/PrasanthPradeep/ai-chat' },
       { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini', description: 'Travel photography from Greece.' },
       { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights', description: 'Abstract light photography.' },
       { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York', description: 'NYC street photography.' },
