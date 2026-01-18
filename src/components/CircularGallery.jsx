@@ -357,7 +357,7 @@ class App {
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const defaultItems = [
-      { image: `/src/assets/prismbrowser_web.png?grayscale`, text: 'Prism Browser Website', description: 'An optimized official Webpage of Prism AI Browser', link: 'https://prismbrowser.tech', link: 'https://github.com/Prismaibrowser/web' },
+      { image: `/src/assets/prismbrowser_web.png`, text: 'Prism Browser Website', description: 'An optimized official Webpage of Prism AI Browser', link: 'https://prismbrowser.tech', link: 'https://github.com/Prismaibrowser/web' },
       { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Protego', description: 'A real-time Personal Protective Equipment (PPE) detection system using YOLOv8 and computer vision.', link: 'https://github.com/PrasanthPradeep/protego' },
       { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'ChatBuddy', description: 'AI companion powered by the Llama 2 model.', link: 'https://github.com/PrasanthPradeep/saturday-hack-night-langchain' },
       { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Poinsettia', description: 'A Secret Santa gift exchange app that automatically matches participants at a scheduled time Built on fun with FastAPI, React, and scheduled reveal logic.', link: 'https://github.com/PrasanthPradeep/Poinsettia' },
