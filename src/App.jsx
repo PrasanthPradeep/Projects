@@ -1,8 +1,6 @@
 import { useRef } from 'react'
 import './App.css'
 import NavBar from './components/NavBar'
-import logo from '/public/images/profile.jpg'
-import aiIcon from '/public/images/ai.png'
 import Particles from './components/BG'
 import CircularGallery from './components/CircularGallery';
 
@@ -29,7 +27,7 @@ function App() {
         scrollBehavior: 'smooth',
       }}>
       <NavBar
-        logo={logo}
+        logo="/images/profile.jpg"
         logoAlt="Company Logo"
         items={[
           { label: 'Home', href: '/' },
@@ -49,7 +47,7 @@ function App() {
         onClick={handleAIClick}
         className="fixed top-20 right-4 sm:top-[1em] sm:right-6 z-50 p-2 sm:p-3 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-all border border-white/20 hover:scale-110"
         aria-label="AI Chat">
-        <img src={aiIcon} alt="AI Chat" className="w-6 h-6 sm:w-8 sm:h-8 object-contain invert" />
+        <img src="/images/ai.png" alt="AI Chat" className="w-6 h-6 sm:w-8 sm:h-8 object-contain invert" />
       </button>
 
       {/* First Page - Welcome */}
