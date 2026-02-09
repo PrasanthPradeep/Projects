@@ -92,7 +92,7 @@ function App() {
               Welcome!
             </p>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto">
-              This is the projects landing section.<br /> &#123; Built late at night with equal parts of code and caffeine &#125;
+              This is my projects landing section.<br /><p className="text-base sm:text-sm mx-auto"> &#123; /* Note: Here you can understand why AI can't replace me! */ &#125;</p><br /> &#123; Built late at night with equal parts of code and caffeine &#125;
             </p>
           </section>
         </main>
