@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import './App.css'
 import NavBar from './components/NavBar'
 import Particles from './components/BG'
@@ -8,11 +8,34 @@ function App() {
   const containerRef = useRef(null)
   const welcomeRef = useRef(null)
   const galleryRef = useRef(null)
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true)
 
   const handleAIClick = () => {
     // TODO: Implement AI chat feature in the future
     console.log('AI chat clicked - feature coming soon!');
   };
+
+  const scrollToGallery = () => {
+    galleryRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerRef.current && welcomeRef.current) {
+        const scrollPosition = containerRef.current.scrollTop;
+        const welcomeHeight = welcomeRef.current.offsetHeight;
+        
+        // Show indicator only when at the top (within first section)
+        setShowScrollIndicator(scrollPosition < welcomeHeight * 0.00010);
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
 
   return (
     <div 
@@ -96,6 +119,28 @@ function App() {
             </p>
           </section>
         </main>
+
+        {/* Scroll Indicator */}
+        <button
+          onClick={scrollToGallery}
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white hover:opacity-80 transition-all duration-500 group ${
+            showScrollIndicator ? 'opacity-100 animate-bounce' : 'opacity-0 pointer-events-none'
+          }`}
+          aria-label="Scroll to projects"
+        >
+          <span className="text-sm font-medium tracking-wide">SCROLL</span>
+          <svg 
+            className="w-6 h-6 stroke-white stroke-2" 
+            fill="none" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
       </div>
 
       {/* Second Page - Gallery */}
