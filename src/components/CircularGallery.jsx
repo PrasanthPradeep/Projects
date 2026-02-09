@@ -465,7 +465,6 @@ class App {
   updateCenterItem() {
     if (!this.medias || !this.medias[0]) return;
     
-    const width = this.medias[0].width;
     const itemCount = this.mediasImages.length / 2;
     
     // Find the media item closest to center (position x = 0)
