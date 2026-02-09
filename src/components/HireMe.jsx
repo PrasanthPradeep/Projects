@@ -66,22 +66,47 @@ const HireMe = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({
-        hrName: '',
-        email: '',
-        company: '',
-        position: '',
-        jobType: '',
-        salaryRange: '',
-        location: '',
-        startDate: '',
-        requirements: '',
+    try {
+      // Send to Web3Forms (get your access key from https://web3forms.com)
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: 'e65894fd-d841-427c-81aa-5148ad0b236e',
+          subject: `Job Opportunity: ${formData.position} at ${formData.company}`,
+          from_name: formData.hrName,
+          email: formData.email,
+          ...formData
+        })
       });
-    }, 1500);
+
+      const result = await response.json();
+      
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({
+          hrName: '',
+          email: '',
+          company: '',
+          position: '',
+          jobType: '',
+          salaryRange: '',
+          location: '',
+          startDate: '',
+          requirements: '',
+        });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -303,6 +328,12 @@ const HireMe = () => {
                 {submitStatus === 'success' && (
                   <div className="text-green-400 text-center text-sm sm:text-base p-3 bg-green-400/10 rounded-lg border border-green-400/20">
                     ✓ Thank you! I've received your opportunity and will respond within 24 hours.
+                  </div>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <div className="text-red-400 text-center text-sm sm:text-base p-3 bg-red-400/10 rounded-lg border border-red-400/20">
+                    ✗ Something went wrong. Please try again or email me directly.
                   </div>
                 )}
               </form>
