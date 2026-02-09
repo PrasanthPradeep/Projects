@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import './NavBar.css';
 
@@ -216,9 +216,9 @@ const NavBar = ({
   return (
     <div className="pill-nav-container">
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
-        <a
+        <Link
           className="pill-logo"
-          href={items?.[0]?.href || '#'}
+          to={items?.[0]?.href || '/'}
           aria-label="Home"
           onMouseEnter={handleLogoEnter}
           ref={el => {
@@ -226,15 +226,20 @@ const NavBar = ({
           }}
         >
           <img src={logo} alt={logoAlt} ref={logoImgRef} />
-        </a>
+        </Link>
 
         <div className="pill-nav-items desktop-only" ref={navItemsRef}>
           <ul className="pill-list" role="menubar">
-            {items.map((item, i) => (
+            {items.map((item, i) => {
+              const isExternal = item.href?.startsWith('http');
+              const LinkComponent = isExternal ? 'a' : Link;
+              const linkProps = isExternal ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' } : { to: item.href };
+              
+              return (
               <li key={item.href || `item-${i}`} role="none">
-                <a
+                <LinkComponent
                   role="menuitem"
-                  href={item.href}
+                  {...linkProps}
                   className={`pill${activeHref === item.href ? ' is-active' : ''}`}
                   aria-label={item.ariaLabel || item.label}
                   onMouseEnter={() => handleEnter(i)}
@@ -253,9 +258,9 @@ const NavBar = ({
                       {item.label}
                     </span>
                   </span>
-                </a>
+                </LinkComponent>
               </li>
-            ))}
+            )})}
           </ul>
         </div>
 
@@ -272,17 +277,22 @@ const NavBar = ({
 
       <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
         <ul className="mobile-menu-list">
-          {items.map((item, i) => (
+          {items.map((item, i) => {
+            const isExternal = item.href?.startsWith('http');
+            const LinkComponent = isExternal ? 'a' : Link;
+            const linkProps = isExternal ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' } : { to: item.href };
+            
+            return (
             <li key={item.href || `mobile-item-${i}`}>
-              <a
-                href={item.href}
+              <LinkComponent
+                {...linkProps}
                 className={`mobile-menu-link${activeHref === item.href ? ' is-active' : ''}`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.label}
-              </a>
+              </LinkComponent>
             </li>
-          ))}
+          )})}
         </ul>
       </div>
     </div>
