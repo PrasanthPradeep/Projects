@@ -112,7 +112,8 @@ const HireMe = () => {
   return (
     <div 
       ref={containerRef}
-      className="h-screen w-full bg-black text-white relative overflow-hidden"
+      className="min-h-screen w-full bg-black text-white relative overflow-x-hidden pb-24 md:pb-0"
+      style={{ WebkitOverflowScrolling: 'touch' }}
     >
       {/* Background Particles */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -129,8 +130,8 @@ const HireMe = () => {
       </div>
 
       {/* Navigation */}
-<nav className="relative z-20 px-4 sm:px-6 py-3 border-b border-white/20">
-  <div className="flex items-center justify-between">
+<nav className="relative z-20 px-3 sm:px-6 py-3 sm:py-4 border-b border-white/20">
+  <div className="flex items-center justify-between max-w-7xl mx-auto">
     
     {/* Logo / Title */}
     <Link
@@ -142,45 +143,48 @@ const HireMe = () => {
         alt="Logo"
         className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
       />
-      <p className="text-white hero-title ubuntu-bold text-3xl">
+      <p className="text-white hero-title ubuntu-bold text-xl sm:text-2xl md:text-3xl">
         Hire Me
       </p>
     </Link>
 
     {/* Right Links */}
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex items-center gap-1.5 sm:gap-3">
       
       <a
         href="/src/assets/Prasanth_P.pdf"
         download
-        className="px-3 sm:px-4 py-2 text-xs sm:text-sm !text-white ubuntu-bold
+        className="px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-sm !text-white ubuntu-bold
                    rounded-full border border-white
                    hover:bg-white hover:!text-black
-                   transition-colors no-underline"
+                   transition-colors no-underline whitespace-nowrap"
       >
-        📄 Resume
+        <span className="hidden sm:inline">Resume</span>
+        <span className="sm:hidden">📄</span>
       </a>
 
       <a
         href="https://prasanthp.me"
         target="_blank"
         rel="noopener noreferrer"
-        className="px-3 sm:px-4 py-2 text-xs sm:text-sm !text-white ubuntu-bold
+        className="px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-sm !text-white ubuntu-bold
                    rounded-full border border-white
                    hover:bg-white hover:!text-black
-                   transition-colors no-underline"
+                   transition-colors no-underline whitespace-nowrap"
       >
-        🌐 Portfolio
+        <span className="hidden sm:inline">Portfolio</span>
+        <span className="sm:hidden">🌐</span>
       </a>
 
       <Link
         to="/"
-        className="px-3 sm:px-4 py-2 text-xs sm:text-sm !text-white ubuntu-bold
+        className="px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-sm !text-white ubuntu-bold
                    rounded-full border border-white
                    hover:bg-white hover:!text-black
                    transition-colors no-underline"
       >
-        ← Home
+        <span className="hidden sm:inline">Home</span>
+        <span className="sm:hidden">🏠</span>
       </Link>
 
             </div>
@@ -189,16 +193,16 @@ const HireMe = () => {
 
 
       {/* Main Content */}
-      <div className="relative z-10 h-[calc(100vh-120px)] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 h-full flex flex-col">
-          <div className="grid lg:grid-cols-2 gap-4 flex-1 overflow-hidden">
+      <div className="relative z-10 overflow-auto max-h-screen md:h-[calc(100vh-120px)] md:overflow-hidden">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 pb-24 sm:pb-28 lg:pb-32">
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Contact Form */}
-            <div className="form-container rounded-xl p-3 sm:p-4 h-full overflow-y-auto">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2">Job Opportunity Details</h2>
+            <div className="form-container rounded-xl p-4 sm:p-6 lg:p-8">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4">Job Opportunity Details</h2>
             
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-2">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                 <div>
-                  <label htmlFor="hrName" className="block text-sm sm:text-base font-medium mb-1.5">
+                  <label htmlFor="hrName" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Your Name *
                 </label>
                 <input
@@ -208,13 +212,13 @@ const HireMe = () => {
                   value={formData.hrName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
                   placeholder="Recruiter / HR name"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm sm:text-base font-medium mb-1.5">
+                <label htmlFor="email" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Company Email *
                 </label>
                 <input
@@ -224,13 +228,13 @@ const HireMe = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
                   placeholder="hr@company.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="company" className="block text-sm sm:text-base font-medium mb-1.5">
+                <label htmlFor="company" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Company Name *
                 </label>
                 <input
@@ -240,13 +244,13 @@ const HireMe = () => {
                   value={formData.company}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
                   placeholder="Your company"
                 />
               </div>
 
               <div>
-                <label htmlFor="position" className="block text-sm sm:text-base font-medium mb-1.5">
+                <label htmlFor="position" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Position / Role *
                 </label>
                 <input
@@ -256,13 +260,13 @@ const HireMe = () => {
                   value={formData.position}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
                   placeholder="e.g., Senior Full-Stack Developer"
                 />
               </div>
 
               <div>
-                <label htmlFor="jobType" className="block text-sm sm:text-base font-medium mb-1.5">
+                <label htmlFor="jobType" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Job Type *
                 </label>
                 <select
@@ -271,7 +275,7 @@ const HireMe = () => {
                   value={formData.jobType}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
                 >
                   <option value="">Select job type</option>
                   <option value="full-time">Full-Time</option>
@@ -283,7 +287,7 @@ const HireMe = () => {
               </div>
 
               <div>
-                <label htmlFor="location" className="block text-sm sm:text-base font-medium mb-1.5">
+                <label htmlFor="location" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Work Location *
                 </label>
                 <select
@@ -292,7 +296,7 @@ const HireMe = () => {
                   value={formData.location}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
                 >
                   <option value="">Select location type</option>
                   <option value="remote">Remote</option>
@@ -302,7 +306,7 @@ const HireMe = () => {
               </div>
 
               <div>
-                <label htmlFor="requirements" className="block text-sm sm:text-base font-medium mb-1.5">
+                <label htmlFor="requirements" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
                   Job Description & Requirements *
                 </label>
                 <textarea
@@ -311,8 +315,8 @@ const HireMe = () => {
                   value={formData.requirements}
                   onChange={handleChange}
                   required
-                  rows="3"
-                  className="w-full px-4 py-3 text-sm border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all resize-none"
+                  rows="4"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all resize-none bg-black text-white"
                   placeholder="Tell me about the role, tech stack, responsibilities, and what you're looking for..."
                 />
               </div>
@@ -320,7 +324,7 @@ const HireMe = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 bg-black text-white border-2 border-white text-base sm:text-lg font-bold rounded-lg hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 sm:py-3.5 bg-black text-white border-2 border-white text-sm sm:text-base md:text-lg font-bold rounded-lg hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit Opportunity'}
                 </button>
@@ -340,9 +344,9 @@ const HireMe = () => {
             </div>
 
             {/* Info Cards */}
-            <div className="space-y-3 h-full ">
-              <div className="info-card p-4 sm:p-5">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">💼 Experience</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="info-card p-4 sm:p-5 lg:p-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">💼 Experience</h3>
                 <ul className="space-y-1 text-sm sm:text-base text-gray-300">
                   <li>• 2+ years in Full-Stack Development</li>
                   <li>• Led teams of 3-5 developers</li>
@@ -351,8 +355,8 @@ const HireMe = () => {
                 </ul>
               </div>
 
-              <div className="info-card p-4 sm:p-5">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">🚀 Technical Skills</h3>
+              <div className="info-card p-4 sm:p-5 lg:p-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">🚀 Technical Skills</h3>
                 <div className="space-y-1 text-sm sm:text-base text-gray-300">
                   <div>
                     <span className="font-semibold text-white">Frontend: </span>
@@ -369,8 +373,8 @@ const HireMe = () => {
                 </div>
               </div>
 
-              <div className="info-card p-4 sm:p-5">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">⚡ Availability</h3>
+              <div className="info-card p-4 sm:p-5 lg:p-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">⚡ Availability</h3>
                 <p className="text-sm sm:text-base text-gray-300 mb-2">
                   Currently evaluating new full-time and contract opportunities.
                 </p>
@@ -380,8 +384,8 @@ const HireMe = () => {
                 </div>
               </div>
 
-              <div className="info-card p-4 sm:p-5">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">📧 Contact</h3>
+              <div className="info-card p-4 sm:p-5 lg:p-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">📧 Contact</h3>
                 <div className="space-y-1 text-sm sm:text-base">
                   <a 
                     href="mailto:programmerprasanth@proton.me" 
@@ -408,8 +412,8 @@ const HireMe = () => {
                 </div>
               </div>
 
-              <div className="info-card p-4 sm:p-5">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">🎯 Looking For</h3>
+              <div className="info-card p-4 sm:p-5 lg:p-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">🎯 Looking For</h3>
                 <ul className="space-y-1 text-sm sm:text-base text-gray-300">
                   <li>• Full-Time, Remote or hybrid positions</li>
                   <li>• Growth-oriented companies</li>
