@@ -2,13 +2,14 @@ import { useRef, useState, useEffect } from 'react'
 import './App.css'
 import NavBar from './components/NavBar'
 import Particles from './components/BG'
-import CircularGallery from './components/CircularGallery';
+import BentoGrid from './components/BentoGrid';
 
 function App() {
   const containerRef = useRef(null)
   const welcomeRef = useRef(null)
   const galleryRef = useRef(null)
   const [showScrollIndicator, setShowScrollIndicator] = useState(true)
+  const [projectsActive, setProjectsActive] = useState(false)
 
   const handleAIClick = () => {
     // TODO: Implement AI chat feature in the future
@@ -24,7 +25,6 @@ function App() {
       if (containerRef.current && welcomeRef.current) {
         const scrollPosition = containerRef.current.scrollTop;
         const welcomeHeight = welcomeRef.current.offsetHeight;
-        
         // Show indicator only when at the top (within first section)
         setShowScrollIndicator(scrollPosition < welcomeHeight * 0.00010);
       }
@@ -32,9 +32,29 @@ function App() {
 
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('scroll', handleScroll);
+      container.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
       return () => container.removeEventListener('scroll', handleScroll);
     }
+  }, []);
+
+  // Minimal enter transition for the project section (content always stays visible).
+  // IntersectionObserver is independent of scroll-event timing, so the section
+  // can never get stuck hidden.
+  useEffect(() => {
+    const container = containerRef.current;
+    const target = galleryRef.current;
+    if (!container || !target) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setProjectsActive(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setProjectsActive(entry.isIntersecting),
+      { root: container, threshold: 0.35 }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -46,8 +66,9 @@ function App() {
         width: '100vw',
         overflowX: 'hidden', 
         overflowY: 'scroll',
-        scrollSnapType: 'y proximity',
+        scrollSnapType: 'y mandatory',
         scrollBehavior: 'smooth',
+        backgroundColor: '#000000',
       }}>
       <NavBar
         logo="/images/profile.jpg"
@@ -73,7 +94,7 @@ function App() {
         <img src="/images/ai.png" alt="AI Chat" className="w-6 h-6 sm:w-8 sm:h-8 object-contain invert" />
       </button>
 
-      {/* First Page - Welcome */}
+      {/* First Page - Welcome (original galaxy bubble bg) */}
       <div 
         ref={welcomeRef}
         className="panel"
@@ -84,6 +105,7 @@ function App() {
           display: 'flex',
           flexDirection: 'column',
           scrollSnapAlign: 'start',
+          scrollSnapStop: 'always',
         }}>
         <div
           style={{
@@ -114,9 +136,9 @@ function App() {
             <p className="ubuntu-bold text-7xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[8rem] leading-tight mb-4 md:mb-6">
               Welcome!
             </p>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto">
               This is my projects landing section.<br /><p className="text-base sm:text-sm mx-auto"> &#123; /* Note: Here you can understand why AI can't replace me! */ &#125;</p><br /> &#123; Built late at night with equal parts of code and caffeine &#125;
-            </p>
+            </div>
           </section>
         </main>
 
@@ -143,7 +165,7 @@ function App() {
         </button>
       </div>
 
-      {/* Second Page - Gallery */}
+      {/* Second Page - Projects (same flat black, no gradient) */}
       <div 
         ref={galleryRef}
         className="panel"
@@ -151,16 +173,17 @@ function App() {
           height: '100vh', 
           width: '100vw',
           position: 'relative',
-          backgroundColor: '#000000ff',
+          backgroundColor: '#000000',
           overflow: 'hidden',
           scrollSnapAlign: 'start',
+          scrollSnapStop: 'always',
         }}
       >
-        <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-          <CircularGallery
-            bend={0}
-            scrollSpeed={1}
-          />
+        <div
+          className={projectsActive ? 'section-enter' : undefined}
+          style={{ width: '100%', height: '100%' }}
+        >
+          <BentoGrid />
         </div>
       </div>
 
