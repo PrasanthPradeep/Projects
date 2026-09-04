@@ -1,5 +1,6 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
 import { useEffect, useRef, useState } from 'react';
+import { toGalleryItems } from '../data/site.js';
 
 function debounce(func, wait) {
   let timeout;
@@ -356,21 +357,8 @@ class App {
     });
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
-    const defaultItems = [
-      { image: '/images/prismbrowser_web.png', text: 'Prism Browser Website', description: 'An optimized official Webpage of Prism AI Browser', link: 'https://prismbrowser.tech' },
-      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Protego', description: 'A real-time Personal Protective Equipment (PPE) detection system using YOLOv8 and computer vision.', link: 'https://github.com/PrasanthPradeep/protego' },
-      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'ChatBuddy', description: 'AI companion powered by the Llama 2 model.', link: 'https://github.com/PrasanthPradeep/saturday-hack-night-langchain' },
-      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Poinsettia', description: 'A Secret Santa gift exchange app that automatically matches participants at a scheduled time Built on fun with FastAPI, React, and scheduled reveal logic.', link: 'https://github.com/PrasanthPradeep/Poinsettia' },
-      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'KTUgrade', description: 'A webapp made for Kerala Technical University B.Tech Students to monitor their grades and plan.', link: 'https://github.com/PrasanthPradeep/ktugrade' },
-      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Aura AI Chat', description: 'An AI app developed for AI Glance in prism browser.', link: 'https://github.com/PrasanthPradeep/ai-chat' },
-      { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini', description: 'Travel photography from Greece.' },
-      { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights', description: 'Abstract light photography.' },
-      { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York', description: 'NYC street photography.' },
-      { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy', description: 'Pet photography portfolio.' },
-      { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline', description: 'Coastal landscape series.' },
-      { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees', description: 'Tropical vibes collection.' }
-    ];
-    const galleryItems = items && items.length ? items : defaultItems;
+    // Fallback comes from src/data/site.js — add projects there, they show here too.
+    const galleryItems = items && items.length ? items : toGalleryItems();
     this.mediasImages = galleryItems.concat(galleryItems);
     this.medias = this.mediasImages.map((data, index) => {
       return new Media({

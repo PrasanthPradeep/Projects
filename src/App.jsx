@@ -3,6 +3,7 @@ import './App.css'
 import NavBar from './components/NavBar'
 import Particles from './components/BG'
 import BentoGrid from './components/BentoGrid';
+import { profile, navItems } from './data/site.js';
 
 function App() {
   const containerRef = useRef(null)
@@ -71,14 +72,9 @@ function App() {
         backgroundColor: '#000000',
       }}>
       <NavBar
-        logo="/images/profile.jpg"
-        logoAlt="Company Logo"
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Contact Me', href: '/contact' },
-          { label: 'Terminal', href: 'https://prasanthp.me' },
-          { label: 'sudo Hire me!', href: '/hire' },
-        ]}
+        logo={profile.avatar}
+        logoAlt={`${profile.name} Logo`}
+        items={navItems}
         activeHref="/"
         className="custom-nav"
         ease="power2.easeOut"

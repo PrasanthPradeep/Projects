@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ProjectCard from './ProjectCard';
 import CircularGallery from './CircularGallery';
+import { projects as siteProjects, toGalleryItems, contact } from '../data/site.js';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -20,58 +21,7 @@ const GridIcon = ({ active }) => (
   </svg>
 );
 
-// ── Default data ──────────────────────────────────────────────────────────────
-
-const defaultProjects = [
-  {
-    image: '/images/prismbrowser_web.png',
-    title: 'Prism Browser Website',
-    desc: 'An optimized official webpage of Prism AI Browser — fast, responsive, and conversion-focused.',
-    tech: ['React', 'Vite', 'Tailwind'],
-    live: 'https://prismbrowser.tech',
-    repo: 'https://github.com/PrasanthPradeep/prismbrowser',
-  },
-  {
-    image: 'https://picsum.photos/seed/2/800/600?grayscale',
-    title: 'Protego',
-    desc: 'Real-time PPE detection system using YOLOv8 and computer vision for workplace safety.',
-    tech: ['Python', 'YOLOv8', 'OpenCV'],
-    live: 'https://github.com/PrasanthPradeep/protego',
-    repo: 'https://github.com/PrasanthPradeep/protego',
-  },
-  {
-    image: 'https://picsum.photos/seed/3/800/600?grayscale',
-    title: 'ChatBuddy',
-    desc: 'AI companion powered by Llama 2 with streaming responses and memory.',
-    tech: ['Python', 'Llama 2', 'FastAPI'],
-    live: 'https://github.com/PrasanthPradeep/saturday-hack-night-langchain',
-    repo: 'https://github.com/PrasanthPradeep/saturday-hack-night-langchain',
-  },
-  {
-    image: 'https://picsum.photos/seed/4/800/600?grayscale',
-    title: 'Poinsettia',
-    desc: 'Secret Santa exchange app with automatic matching and scheduled reveals.',
-    tech: ['FastAPI', 'React', 'SQLite'],
-    live: 'https://github.com/PrasanthPradeep/Poinsettia',
-    repo: 'https://github.com/PrasanthPradeep/Poinsettia',
-  },
-  {
-    image: 'https://picsum.photos/seed/5/800/600?grayscale',
-    title: 'KTUgrade',
-    desc: 'Grade tracker for KTU B.Tech students to monitor progress and plan semesters.',
-    tech: ['React', 'Node.js'],
-    live: 'https://github.com/PrasanthPradeep/ktugrade',
-    repo: 'https://github.com/PrasanthPradeep/ktugrade',
-  },
-  {
-    image: 'https://picsum.photos/seed/16/800/600?grayscale',
-    title: 'Aura AI Chat',
-    desc: 'AI chat experience built for AI Glance in Prism Browser.',
-    tech: ['React', 'AI SDK'],
-    live: 'https://github.com/PrasanthPradeep/ai-chat',
-    repo: 'https://github.com/PrasanthPradeep/ai-chat',
-  },
-];
+// ── Data lives in src/data/site.js — add projects there, they render here automatically ──
 
 // ── Toggle (dark minimal) ─────────────────────────────────────────────────────
 
@@ -98,7 +48,7 @@ function ViewToggle({ view, onChange }) {
 
 // ── Main (dark minimal, matches galaxy hero) ──────────────────────────────────
 
-export default function BentoGrid({ projects = defaultProjects, className = '' }) {
+export default function BentoGrid({ projects = siteProjects, className = '' }) {
   const [viewMode, setViewMode] = useState('grid');
 
   return (
@@ -145,7 +95,7 @@ export default function BentoGrid({ projects = defaultProjects, className = '' }
         {viewMode === 'grid' && (
           <div className="grid grid-cols-1 gap-5 pb-8 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, i) => (
-              <ProjectCard key={project.title + i} project={project} index={i} />
+              <ProjectCard key={project.id || project.title + i} project={project} index={i} />
             ))}
           </div>
         )}
@@ -155,7 +105,7 @@ export default function BentoGrid({ projects = defaultProjects, className = '' }
           <p className="mt-auto pt-2 text-center text-[13px] text-zinc-500">
             Want the full story behind each build?{' '}
             <a
-              href="https://github.com/PrasanthPradeep"
+              href={contact.githubProfile}
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-white underline decoration-white/20 underline-offset-4 hover:decoration-white"
@@ -170,12 +120,7 @@ export default function BentoGrid({ projects = defaultProjects, className = '' }
       {viewMode === 'circular' && (
         <div className="absolute inset-0 top-[210px] z-0 overflow-hidden sm:top-[230px]">
           <CircularGallery
-            items={projects.map((p) => ({
-              image: p.image,
-              text: p.title,
-              description: p.desc,
-              link: p.repo,
-            }))}
+            items={toGalleryItems(projects)}
             bend={0}
             scrollSpeed={1}
             textColor="#ffffff"

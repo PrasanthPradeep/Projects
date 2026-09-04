@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import Particles from './BG';
 import NavBar from './NavBar';
+import {
+  profile,
+  navItems,
+  contact,
+  stats,
+  highlights,
+  skills,
+} from '../data/site.js';
 
 const inputCls =
   'w-full rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-600 outline-none transition focus:border-white/30 focus:bg-white/[0.07] [&>option]:bg-zinc-900';
@@ -172,14 +180,9 @@ const HireMe = () => {
 
       {/* ── Nav (same pill nav as index) ─────────────────── */}
       <NavBar
-        logo="/images/profile.jpg"
-        logoAlt="Company Logo"
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Contact Me', href: '/contact' },
-          { label: 'Terminal', href: 'https://prasanthp.me' },
-          { label: 'sudo Hire me!', href: '/hire' },
-        ]}
+        logo={profile.avatar}
+        logoAlt={`${profile.name} Logo`}
+        items={navItems}
         activeHref="/hire"
         className="custom-nav"
         ease="power2.easeOut"
@@ -223,13 +226,9 @@ const HireMe = () => {
                 Tell me about the role — I reply within 24 hours.
               </p>
 
-              {/* Stats */}
+              {/* Stats — edit in src/data/site.js */}
               <div className="mt-5 flex divide-x divide-white/10">
-                {[
-                  ['2+', 'Years shipping'],
-                  ['10+', 'Apps in prod'],
-                  ['24h', 'Response time'],
-                ].map(([n, l]) => (
+                {stats.map(([n, l]) => (
                   <div key={l} className="pr-5 pl-5 first:pl-0 last:pr-0">
                     <p className="text-lg font-bold tracking-tight sm:text-xl">{n}</p>
                     <p className="mt-0.5 text-[11px] text-zinc-500">{l}</p>
@@ -248,12 +247,7 @@ const HireMe = () => {
                     Why work with me
                   </h2>
                   <ul className="mt-3 space-y-2 text-sm leading-relaxed text-zinc-300">
-                    {[
-                      'Led teams of 3–5 developers to production',
-                      'Shipped 10+ full-stack apps end-to-end',
-                      'B.Tech in Computer Science, AI-native workflow',
-                      'Remote-ready, async-first communicator',
-                    ].map((t) => (
+                    {highlights.map((t) => (
                       <li key={t} className="flex items-start gap-3">
                         <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
                         {t}
@@ -267,11 +261,7 @@ const HireMe = () => {
                     Stack
                   </h2>
                   <div className="mt-3 space-y-2 text-[13px]">
-                    {[
-                      ['Frontend', 'React · Next.js · TypeScript'],
-                      ['Backend', 'Node.js · Python · PostgreSQL'],
-                      ['Infra', 'Docker · AWS · CI/CD'],
-                    ].map(([k, v]) => (
+                    {skills.map(([k, v]) => (
                       <div key={k} className="flex items-baseline gap-3">
                         <span className="w-20 shrink-0 font-semibold text-white">{k}</span>
                         <span className="text-zinc-400">{v}</span>
@@ -286,9 +276,9 @@ const HireMe = () => {
                   </h2>
                   <div className="mt-3 divide-y divide-white/10 border-y border-white/10">
                     {[
-                      ['Email', 'programmerprasanth@proton.me', 'mailto:programmerprasanth@proton.me', false],
-                      ['LinkedIn', 'linkedin.com/in/prasanth1010000', 'https://linkedin.com/in/prasanth1010000', true],
-                      ['GitHub', 'github.com/PrasanthPradeepp', 'https://github.com/PrasanthPradeepp', true],
+                      ['Email', contact.email, `mailto:${contact.email}`, false],
+                      ['LinkedIn', contact.linkedinLabel, contact.linkedinUrl, true],
+                      ['GitHub', contact.githubLabel, contact.githubUrl, true],
                     ].map(([k, v, href, ext]) => (
                       <a
                         key={k}
@@ -303,7 +293,7 @@ const HireMe = () => {
                       </a>
                     ))}
                     <a
-                      href="/src/assets/Prasanth_P.pdf"
+                      href={profile.resume}
                       download
                       className="group flex items-center justify-between py-2.5 text-[13px] transition-colors"
                     >
