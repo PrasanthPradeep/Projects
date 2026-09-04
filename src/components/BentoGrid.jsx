@@ -51,19 +51,23 @@ function ViewToggle({ view, onChange }) {
 export default function BentoGrid({ projects = siteProjects, className = '' }) {
   const [viewMode, setViewMode] = useState('grid');
   const connectLink = subdomains.find((s) => s.label === 'Connect')?.href || contact.githubUrl;
+  // Slide mode compacts the header so canvas + info card fit one screen, no scroll.
+  const isSlide = viewMode === 'circular';
 
   return (
     <section
       className={`relative h-full w-full overflow-hidden bg-black font-[Inter,system-ui,sans-serif] text-zinc-100 antialiased ${className}`}
     >
       <div
-        className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col px-5 pb-10 pt-10 sm:px-8 sm:pt-14"
+        className={`relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col px-5 pt-20 sm:px-8 sm:pt-24 ${
+          isSlide ? 'pb-4' : 'pb-10'
+        }`}
         style={{ overflowY: viewMode === 'grid' ? 'auto' : 'hidden', scrollbarWidth: 'none' }}
       >
         {/* ── Header ── */}
-        <header className="mb-8 flex flex-wrap items-end justify-between gap-5">
+        <header className={`flex flex-wrap items-end justify-between gap-4 sm:gap-5 ${isSlide ? 'mb-3 sm:mb-5' : 'mb-8'}`}>
           <div className="max-w-xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 sm:mb-3">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
@@ -72,13 +76,17 @@ export default function BentoGrid({ projects = siteProjects, className = '' }) {
                 Portfolio · {projects.length} projects
               </span>
             </div>
-            <h2 className="text-[clamp(32px,4.5vw,52px)] font-semibold leading-[1.02] tracking-[-0.04em] text-white">
+            <h2 className={`font-semibold leading-[1.02] tracking-[-0.04em] text-white ${
+              isSlide ? 'text-[clamp(24px,3.5vw,38px)]' : 'text-[clamp(32px,4.5vw,52px)]'
+            }`}>
               Work that ships.
             </h2>
-            <p className="mt-3 max-w-md text-[15px] leading-relaxed text-zinc-400">
-              A focused set of builds across web, AI, and vision — designed,
-              engineered, and maintained end-to-end.
-            </p>
+            {!isSlide && (
+              <p className="mt-3 max-w-md text-[15px] leading-relaxed text-zinc-400">
+                A focused set of builds across web, AI, and vision — designed,
+                engineered, and maintained end-to-end.
+              </p>
+            )}
           </div>
 
           <div className="flex items-center gap-3">
@@ -109,9 +117,9 @@ export default function BentoGrid({ projects = siteProjects, className = '' }) {
         )}
       </div>
 
-      {/* ── Slide view (original dark gallery) ── */}
+      {/* ── Slide view: responsive offset so header + canvas + card fit one screen ── */}
       {viewMode === 'circular' && (
-        <div className="absolute inset-0 top-[210px] z-0 overflow-hidden sm:top-[230px]">
+        <div className="absolute inset-0 top-[160px] z-0 overflow-hidden sm:top-[200px] lg:top-[208px]">
           <CircularGallery
             items={toGalleryItems(projects)}
             bend={0}

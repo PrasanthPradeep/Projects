@@ -161,7 +161,7 @@ function App() {
         </button>
       </div>
 
-      {/* Second Page - Projects (snaps to just below the navbar) */}
+      {/* Second Page - Projects (full-bleed black snap, content clears navbar) */}
       <div 
         ref={galleryRef}
         className="panel"
@@ -173,7 +173,6 @@ function App() {
           overflow: 'hidden',
           scrollSnapAlign: 'start',
           scrollSnapStop: 'always',
-          scrollMarginTop: '88px',
         }}
       >
         <div
