@@ -78,7 +78,7 @@ export const contact = {
 };
 
 export const stats = [
-  ['2+', 'Years shipping'],
+  ['3+', 'Years shipping'],
   ['10+', 'Apps in prod'],
   ['24h', 'Response time'],
 ];

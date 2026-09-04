@@ -21,6 +21,13 @@ function App() {
     galleryRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToWelcome = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setShowScrollIndicator(true);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (containerRef.current && welcomeRef.current) {
@@ -82,6 +89,7 @@ function App() {
         pillColor="#ffffff"
         hoveredPillTextColor="#ffffff"
         pillTextColor="#000000"
+        onLogoClick={scrollToWelcome}
       />
       <button
         onClick={handleAIClick}

@@ -182,7 +182,7 @@ const HireMe = () => {
       <NavBar
         logo={profile.avatar}
         logoAlt={`${profile.name} Logo`}
-        items={navItems}
+        items={[{ label: 'Home', href: '/' }, ...navItems]}
         activeHref="/hire"
         className="custom-nav"
         ease="power2.easeOut"

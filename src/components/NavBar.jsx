@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import './NavBar.css';
 
@@ -15,8 +15,24 @@ const NavBar = ({
   hoveredPillTextColor = '#060010',
   pillTextColor,
   onMobileMenuClick,
+  onLogoClick,
   initialLoadAnimation = true
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Profile pic always heads to the homepage welcome section,
+  // no matter which page the user is on.
+  const goHome = (event) => {
+    event.preventDefault();
+    onLogoClick?.(event);
+    if (location.pathname === '/') {
+      document.querySelector('.scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const circleRefs = useRef([]);
@@ -216,17 +232,18 @@ const NavBar = ({
   return (
     <div className="pill-nav-container">
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
-        <Link
+        <button
+          type="button"
           className="pill-logo"
-          to={items?.[0]?.href || '/'}
           aria-label="Home"
+          onClick={goHome}
           onMouseEnter={handleLogoEnter}
           ref={el => {
             logoRef.current = el;
           }}
         >
           <img src={logo} alt={logoAlt} ref={logoImgRef} />
-        </Link>
+        </button>
 
         <div className="pill-nav-items desktop-only" ref={navItemsRef}>
           <ul className="pill-list" role="menubar">
