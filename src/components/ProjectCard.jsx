@@ -1,7 +1,5 @@
 export default function ProjectCard({ project, index = 0 }) {
-  const techText = Array.isArray(project.tech)
-    ? project.tech.join(' • ')
-    : project.tech || '';
+  const techList = (Array.isArray(project.tech) ? project.tech : [project.tech]).filter(Boolean);
 
   const bgStyle = project.image
     ? {
@@ -28,10 +26,17 @@ export default function ProjectCard({ project, index = 0 }) {
         </div>
       </div>
 
-      <div className="mt-4 px-1">
-        {techText && (
-          <div className="mb-3 inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] font-medium tracking-[0.08em] text-zinc-200 uppercase backdrop-blur-[2px]">
-            {techText}
+      <div className="mt-4 flex flex-1 flex-col px-1">
+        {techList.length > 0 && (
+          <div className="mb-3 flex min-h-[30px] flex-wrap items-center gap-1.5">
+            {techList.map((t) => (
+              <span
+                key={t}
+                className="inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-200"
+              >
+                {t}
+              </span>
+            ))}
           </div>
         )}
 
@@ -39,19 +44,16 @@ export default function ProjectCard({ project, index = 0 }) {
           {project.desc}
         </p>
 
-        <div className="mt-5 flex items-center justify-between pt-2 text-[13px]">
-          <div className="flex items-center gap-1.5 font-medium">
-            <span className="text-zinc-400">Status</span>
-            <span className="text-zinc-500">·</span>
-            <a
-              href={project.live || project.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-semibold text-white transition-colors hover:text-zinc-200"
-            >
-              View <span className="transition-transform group-hover:translate-x-0.5">→</span>
-            </a>
-          </div>
+        <div className="mt-auto flex items-center justify-between pt-5 text-[13px]">
+          <a
+            href={project.live || project.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-[#ece9e2] px-4 py-2 font-semibold text-black transition-colors hover:bg-[#f5f3ee]"
+          >
+            <span className="h-2 w-2 rounded-full bg-green-500" />
+            <span className="text-black">Live</span>
+          </a>
 
           {project.repo && (
             <a
