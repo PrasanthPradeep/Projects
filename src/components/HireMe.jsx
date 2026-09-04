@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import Particles from './BG';
+import NavBar from './NavBar';
+
+const inputCls =
+  'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-zinc-600 outline-none transition focus:border-white/30 focus:bg-white/[0.07] [&>option]:bg-zinc-900';
+
+const labelCls =
+  'mb-2 block text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400';
 
 const HireMe = () => {
   const containerRef = useRef(null);
@@ -110,321 +117,261 @@ const HireMe = () => {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="min-h-screen w-full bg-black text-white relative overflow-x-hidden pb-24 md:pb-0"
-      style={{ WebkitOverflowScrolling: 'touch' }}
+      className="relative min-h-screen w-full overflow-x-hidden bg-black font-[Inter,system-ui,sans-serif] text-white antialiased"
     >
-      {/* Background Particles */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none">
+      {/* Subtle galaxy backdrop */}
+      <div className="pointer-events-none absolute inset-0 h-full w-full opacity-40">
         <Particles
           particleColors={['#ffffff', '#ffffff']}
-          particleCount={300}
+          particleCount={220}
           particleSpread={10}
-          speed={0.1}
-          particleBaseSize={100}
+          speed={0.08}
+          particleBaseSize={60}
           moveParticlesOnHover={false}
           alphaParticles={true}
           disableRotation={false}
         />
       </div>
 
-      {/* Navigation */}
-<nav className="relative z-20 px-3 sm:px-6 py-3 sm:py-4 border-b border-white/20">
-  <div className="flex items-center justify-between max-w-7xl mx-auto">
-    
-    {/* Logo / Title */}
-    <Link
-      to="/"
-      className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity"
-    >
-      <img
-        src="/images/profile.jpg"
-        alt="Logo"
-        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
+      {/* ── Nav (same pill nav as index) ─────────────────── */}
+      <NavBar
+        logo="/images/profile.jpg"
+        logoAlt="Company Logo"
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Contact Me', href: '/contact' },
+          { label: 'Terminal', href: 'https://prasanthp.me' },
+          { label: 'sudo Hire me!', href: '/hire' },
+        ]}
+        activeHref="/hire"
+        className="custom-nav"
+        ease="power2.easeOut"
+        baseColor="#000000"
+        pillColor="#ffffff"
+        hoveredPillTextColor="#ffffff"
+        pillTextColor="#000000"
       />
-      <p className="text-white hero-title ubuntu-bold text-xl sm:text-2xl md:text-3xl">
-        Hire Me
-      </p>
-    </Link>
 
-    {/* Right Links */}
-    <div className="flex items-center gap-1.5 sm:gap-3">
-      
-      <a
-        href="/src/assets/Prasanth_P.pdf"
-        download
-        className="px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-sm !text-white ubuntu-bold
-                   rounded-full border border-white
-                   hover:bg-white hover:!text-black
-                   transition-colors no-underline whitespace-nowrap"
-      >
-        <span className="hidden sm:inline">Resume</span>
-        <span className="sm:hidden">📄</span>
-      </a>
+      {/* ── Main ────────────────────────────────────────── */}
+      <main className="relative z-10 mx-auto max-w-6xl px-5 pb-24 pt-24 sm:px-8 sm:pt-28">
+        {/* Hero */}
+        <div className="max-w-2xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-300">
+              Open to new roles
+            </span>
+          </div>
+          <h1 className="hero-title text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.0] tracking-[-0.05em]">
+            Let&apos;s build
+            <br />
+            what&apos;s next.
+          </h1>
+          <p className="hero-subtitle mt-4 max-w-xl text-[15px] leading-relaxed text-zinc-400 sm:text-[17px]">
+            Full-stack developer working across React, Node, and AI.
+            Tell me about the role — I reply within 24 hours.
+          </p>
 
-      <a
-        href="https://prasanthp.me"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-sm !text-white ubuntu-bold
-                   rounded-full border border-white
-                   hover:bg-white hover:!text-black
-                   transition-colors no-underline whitespace-nowrap"
-      >
-        <span className="hidden sm:inline">Portfolio</span>
-        <span className="sm:hidden">🌐</span>
-      </a>
-
-      <Link
-        to="/"
-        className="px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-sm !text-white ubuntu-bold
-                   rounded-full border border-white
-                   hover:bg-white hover:!text-black
-                   transition-colors no-underline"
-      >
-        <span className="hidden sm:inline">Home</span>
-        <span className="sm:hidden">🏠</span>
-      </Link>
-
-            </div>
-        </div>
-        </nav>
-
-
-      {/* Main Content */}
-      <div className="relative z-10 overflow-auto max-h-screen md:h-[calc(100vh-120px)] md:overflow-hidden">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 pb-24 sm:pb-28 lg:pb-32">
-          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
-            {/* Contact Form */}
-            <div className="form-container rounded-xl p-4 sm:p-6 lg:p-8">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4">Job Opportunity Details</h2>
-            
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                <div>
-                  <label htmlFor="hrName" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Your Name *
-                </label>
-                <input
-                  type="text"
-                  id="hrName"
-                  name="hrName"
-                  value={formData.hrName}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
-                  placeholder="Recruiter / HR name"
-                />
+          {/* Stats */}
+          <div className="mt-8 flex divide-x divide-white/10">
+            {[
+              ['2+', 'Years shipping'],
+              ['10+', 'Apps in prod'],
+              ['24h', 'Response time'],
+            ].map(([n, l]) => (
+              <div key={l} className="pr-6 pl-6 first:pl-0 last:pr-0">
+                <p className="text-xl font-bold tracking-tight sm:text-2xl">{n}</p>
+                <p className="mt-0.5 text-[12px] text-zinc-500">{l}</p>
               </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Company Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
-                  placeholder="hr@company.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="company" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Company Name *
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
-                  placeholder="Your company"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="position" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Position / Role *
-                </label>
-                <input
-                  type="text"
-                  id="position"
-                  name="position"
-                  value={formData.position}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
-                  placeholder="e.g., Senior Full-Stack Developer"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="jobType" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Job Type *
-                </label>
-                <select
-                  id="jobType"
-                  name="jobType"
-                  value={formData.jobType}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
-                >
-                  <option value="">Select job type</option>
-                  <option value="full-time">Full-Time</option>
-                  <option value="part-time">Part-Time</option>
-                  <option value="contract">Contract</option>
-                  <option value="freelance">Freelance</option>
-                  <option value="internship">Internship</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="location" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Work Location *
-                </label>
-                <select
-                  id="location"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all bg-black text-white"
-                >
-                  <option value="">Select location type</option>
-                  <option value="remote">Remote</option>
-                  <option value="hybrid">Hybrid</option>
-                  <option value="onsite">On-site</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="requirements" className="block text-sm sm:text-base font-medium mb-1.5 sm:mb-2">
-                  Job Description & Requirements *
-                </label>
-                <textarea
-                  id="requirements"
-                  name="requirements"
-                  value={formData.requirements}
-                  onChange={handleChange}
-                  required
-                  rows="4"
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all resize-none bg-black text-white"
-                  placeholder="Tell me about the role, tech stack, responsibilities, and what you're looking for..."
-                />
-              </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3 sm:py-3.5 bg-black text-white border-2 border-white text-sm sm:text-base md:text-lg font-bold rounded-lg hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit Opportunity'}
-                </button>
-
-                {submitStatus === 'success' && (
-                  <div className="text-green-400 text-center text-sm sm:text-base p-3 bg-green-400/10 rounded-lg border border-green-400/20">
-                    ✓ Thank you! I've received your opportunity and will respond within 24 hours.
-                  </div>
-                )}
-                
-                {submitStatus === 'error' && (
-                  <div className="text-red-400 text-center text-sm sm:text-base p-3 bg-red-400/10 rounded-lg border border-red-400/20">
-                    ✗ Something went wrong. Please try again or email me directly.
-                  </div>
-                )}
-              </form>
-            </div>
-
-            {/* Info Cards */}
-            <div className="space-y-3 sm:space-y-4">
-              <div className="info-card p-4 sm:p-5 lg:p-2">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">💼 Experience</h3>
-                <ul className="space-y-1 text-sm sm:text-base text-gray-300">
-                  <li>• 2+ years in Full-Stack Development</li>
-                  <li>• Led teams of 3-5 developers</li>
-                  <li>• Shipped 10+ production apps</li>
-                  <li>• B.Tech. in Computer Science</li>
-                </ul>
-              </div>
-
-              <div className="info-card p-4 sm:p-5 lg:p-2">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">🚀 Technical Skills</h3>
-                <div className="space-y-1 text-sm sm:text-base text-gray-300">
-                  <div>
-                    <span className="font-semibold text-white">Frontend: </span>
-                    <span>React, Next.js, Vue, TypeScript</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-white">Backend: </span>
-                    <span>Node.js, Python, PostgreSQL</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-white">DevOps: </span>
-                    <span>Docker, AWS, CI/CD</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="info-card p-4 sm:p-5 lg:p-2">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">⚡ Availability</h3>
-                <p className="text-sm sm:text-base text-gray-300 mb-2">
-                  Currently evaluating new full-time and contract opportunities.
-                </p>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-green-400 text-sm sm:text-base font-medium">Open to offers</span>
-                </div>
-              </div>
-
-              <div className="info-card p-4 sm:p-5 lg:p-2">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">📧 Contact</h3>
-                <div className="space-y-1 text-sm sm:text-base">
-                  <a 
-                    href="mailto:programmerprasanth@proton.me" 
-                    className="block text-white hover:text-gray-300 transition-colors no-underline"
-                  >
-                    → programmerprasanth@proton.me
-                  </a>
-                  <a 
-                    href="https://linkedin.com/in/prasanth1010000" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block text-white hover:text-gray-300 transition-colors no-underline"
-                  >
-                    → LinkedIn Profile
-                  </a>
-                  <a 
-                    href="https://github.com/PrasanthPradeepp" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block text-white hover:text-gray-300 transition-colors no-underline"
-                  >
-                    → GitHub Portfolio
-                  </a>
-                </div>
-              </div>
-
-              <div className="info-card p-4 sm:p-5 lg:p-2">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3">🎯 Looking For</h3>
-                <ul className="space-y-1 text-sm sm:text-base text-gray-300">
-                  <li>• Full-Time, Remote or hybrid positions</li>
-                  <li>• Growth-oriented companies</li>
-                  <li>• Modern tech stack</li>
-                  <li>• Collaborative team culture</li>
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+
+        <div className="my-10 h-px w-full bg-white/10" />
+
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
+          {/* ── Pitch column ─────────────────────────── */}
+          <div className="space-y-8">
+            <section className="info-card">
+              <h2 className="text-[12px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                Why work with me
+              </h2>
+              <ul className="mt-4 space-y-3 text-[15px] leading-relaxed text-zinc-300">
+                {[
+                  'Led teams of 3–5 developers to production',
+                  'Shipped 10+ full-stack apps end-to-end',
+                  'B.Tech in Computer Science, AI-native workflow',
+                  'Remote-ready, async-first communicator',
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-3">
+                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="info-card rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+              <h2 className="text-[12px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                Stack
+              </h2>
+              <div className="mt-4 space-y-3 text-[14px]">
+                {[
+                  ['Frontend', 'React · Next.js · TypeScript'],
+                  ['Backend', 'Node.js · Python · PostgreSQL'],
+                  ['Infra', 'Docker · AWS · CI/CD'],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
+                    <span className="w-20 shrink-0 font-semibold text-white">{k}</span>
+                    <span className="text-zinc-400">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="info-card">
+              <h2 className="text-[12px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                Contact
+              </h2>
+              <div className="mt-4 divide-y divide-white/10 border-y border-white/10">
+                {[
+                  ['Email', 'programmerprasanth@proton.me', 'mailto:programmerprasanth@proton.me', false],
+                  ['LinkedIn', 'linkedin.com/in/prasanth1010000', 'https://linkedin.com/in/prasanth1010000', true],
+                  ['GitHub', 'github.com/PrasanthPradeepp', 'https://github.com/PrasanthPradeepp', true],
+                ].map(([k, v, href, ext]) => (
+                  <a
+                    key={k}
+                    href={href}
+                    {...(ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className="group flex items-center justify-between py-3.5 text-[14px] transition-colors"
+                  >
+                    <span className="text-zinc-500">{k}</span>
+                    <span className="font-medium text-white group-hover:text-zinc-300">
+                      {v} <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+                    </span>
+                  </a>
+                ))}
+                <a
+                  href="/src/assets/Prasanth_P.pdf"
+                  download
+                  className="group flex items-center justify-between py-3.5 text-[14px] transition-colors"
+                >
+                  <span className="text-zinc-500">Resume</span>
+                  <span className="font-medium text-white group-hover:text-zinc-300">
+                    Download PDF <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+                  </span>
+                </a>
+              </div>
+            </section>
+          </div>
+
+          {/* ── Form card ────────────────────────────── */}
+          <div className="form-container h-fit rounded-2xl border border-white/10 bg-white/[0.02] p-5 sm:p-8">
+            <h2 className="text-xl font-bold tracking-tight sm:text-2xl">Tell me about the role</h2>
+            <p className="mt-1.5 text-[14px] text-zinc-500">
+              Two minutes for you, a reply within a day from me.
+            </p>
+
+            <form ref={formRef} onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="hrName" className={labelCls}>Your name *</label>
+                  <input
+                    type="text" id="hrName" name="hrName"
+                    value={formData.hrName} onChange={handleChange} required
+                    className={inputCls} placeholder="Jane Recruiter"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className={labelCls}>Work email *</label>
+                  <input
+                    type="email" id="email" name="email"
+                    value={formData.email} onChange={handleChange} required
+                    className={inputCls} placeholder="jane@company.com"
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="company" className={labelCls}>Company *</label>
+                  <input
+                    type="text" id="company" name="company"
+                    value={formData.company} onChange={handleChange} required
+                    className={inputCls} placeholder="Acme Inc."
+                  />
+                </div>
+                <div>
+                  <label htmlFor="position" className={labelCls}>Role *</label>
+                  <input
+                    type="text" id="position" name="position"
+                    value={formData.position} onChange={handleChange} required
+                    className={inputCls} placeholder="Senior Full-Stack Dev"
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="jobType" className={labelCls}>Type *</label>
+                  <select id="jobType" name="jobType" value={formData.jobType} onChange={handleChange} required className={inputCls}>
+                    <option value="">Select…</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="freelance">Freelance</option>
+                    <option value="internship">Internship</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="location" className={labelCls}>Location *</label>
+                  <select id="location" name="location" value={formData.location} onChange={handleChange} required className={inputCls}>
+                    <option value="">Select…</option>
+                    <option value="remote">Remote</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="onsite">On-site</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="requirements" className={labelCls}>Role details *</label>
+                <textarea
+                  id="requirements" name="requirements"
+                  value={formData.requirements} onChange={handleChange} required
+                  rows="4" className={`${inputCls} resize-none`}
+                  placeholder="Stack, responsibilities, timeline, compensation band…"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full rounded-full bg-[#ece9e2] py-3.5 text-[15px] font-semibold text-black transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSubmitting ? 'Sending…' : 'Send opportunity →'}
+              </button>
+
+              {submitStatus === 'success' && (
+                <div className="rounded-xl border border-green-500/20 bg-green-500/10 p-3.5 text-center text-sm text-green-400">
+                  ✓ Received — I&apos;ll respond within 24 hours.
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-3.5 text-center text-sm text-red-400">
+                  ✗ Something went wrong — try again or email me directly.
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
