@@ -276,7 +276,7 @@ const HireMe = () => {
                   </h2>
                   <div className="mt-3 divide-y divide-white/10 border-y border-white/10">
                     {[
-                      ['Email', contact.email, `mailto:${contact.email}`, false],
+                      ['Email', contact.email, contact.emailHref, false],
                       ['LinkedIn', contact.linkedinLabel, contact.linkedinUrl, true],
                       ['GitHub', contact.githubLabel, contact.githubUrl, true],
                     ].map(([k, v, href, ext]) => (

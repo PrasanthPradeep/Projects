@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProjectCard from './ProjectCard';
 import CircularGallery from './CircularGallery';
-import { projects as siteProjects, toGalleryItems, contact } from '../data/site.js';
+import { projects as siteProjects, toGalleryItems, contact, subdomains } from '../data/site.js';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -100,19 +100,37 @@ export default function BentoGrid({ projects = siteProjects, className = '' }) {
           </div>
         )}
 
-        {/* ── Footer note ── */}
+        {/* ── Footer note + network ── */}
         {viewMode === 'grid' && (
-          <p className="mt-auto pt-2 text-center text-[13px] text-zinc-500">
-            Want the full story behind each build?{' '}
-            <a
-              href={contact.githubProfile}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-white underline decoration-white/20 underline-offset-4 hover:decoration-white"
-            >
-              Browse GitHub →
-            </a>
-          </p>
+          <div className="mt-auto pt-2 text-center">
+            <p className="text-[13px] text-zinc-500">
+              Want the full story behind each build?{' '}
+              <a
+                href={contact.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-white underline decoration-white/20 underline-offset-4 hover:decoration-white"
+              >
+                Browse GitHub →
+              </a>
+            </p>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px]">
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-zinc-600">
+                Network
+              </span>
+              {subdomains.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-zinc-500 transition-colors hover:text-white"
+                >
+                  {s.label} ↗
+                </a>
+              ))}
+            </div>
+          </div>
         )}
       </div>
 

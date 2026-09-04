@@ -19,28 +19,62 @@
 //   }
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────────────────────
+// LINKS — change any URL here ONCE, every usage across the site follows.
+// ─────────────────────────────────────────────────────────────────────────────
+//   links.portfolio  → nav "Terminal" item
+//   links.github     → nav "GitHub" item, contact rows, grid footer
+//   links.linkedin   → contact rows
+//   links.email      → contact rows (mailto: built automatically)
+//   links.resume     → resume download (Hire page contact list)
+// Display labels (linkedinLabel, …) are derived from the URLs above,
+// so they update themselves when a URL changes.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const links = {
+  domain: 'prasanthp.tech',
+  portfolio: 'https://prasanthp.tech',
+  github: 'https://github.com/PrasanthPradeep',
+  linkedin: 'https://linkedin.com/in/prasanthptech',
+  email: 'programmerprasanth@proton.me',
+  resume: '/src/assets/Prasanth_P.pdf',
+};
+
+// Subdomain helper — change `links.domain` once, every subdomain follows.
+const sub = (name) => `https://${name}.${links.domain}`;
+
+// Every live property under prasanthp.tech. Add a row here and it
+// appears in the network strip automatically.
+export const subdomains = [
+  { label: 'Projects', href: sub('projects') },
+  { label: 'Connect', href: sub('connect') },
+  { label: 'Solarundo', href: sub('solarundo') },
+  { label: 'Enteonam', href: sub('enteonam') },
+];
+
 export const profile = {
   name: 'Prasanth P',
   role: 'Full-stack developer',
   tagline: 'Projects that speak for themselves.',
   avatar: '/images/profile.jpg',
-  resume: '/src/assets/Prasanth_P.pdf',
+  resume: links.resume,
+  portfolio: links.portfolio,
 };
 
 export const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Contact Me', href: '/contact' },
-  { label: 'Terminal', href: 'https://prasanthp.tech' },
+  { label: 'GitHub', href: links.github },
+  { label: 'Contact Me', href: sub('connect') },
+  { label: 'Terminal', href: links.portfolio },
   { label: 'sudo Hire me!', href: '/hire' },
 ];
 
 export const contact = {
-  email: 'programmerprasanth@proton.me',
-  linkedinLabel: 'linkedin.com/in/prasanth1010000',
-  linkedinUrl: 'https://linkedin.com/in/prasanth1010000',
-  githubLabel: 'github.com/PrasanthPradeepp',
-  githubUrl: 'https://github.com/PrasanthPradeepp',
-  githubProfile: 'https://github.com/PrasanthPradeep',
+  email: links.email,
+  emailHref: `mailto:${links.email}`,
+  linkedinLabel: links.linkedin.replace(/^https?:\/\//, ''),
+  linkedinUrl: links.linkedin,
+  githubLabel: links.github.replace(/^https?:\/\//, ''),
+  githubUrl: links.github,
 };
 
 export const stats = [
