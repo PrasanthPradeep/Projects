@@ -16,13 +16,13 @@ export default function ProjectCard({ project, index = 0 }) {
   return (
     <article className="group flex h-full min-h-[300px] flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1">
       <div
-        className="relative flex min-h-[280px] overflow-hidden rounded-2xl border border-white/10"
+        className="relative flex min-h-[280px] items-center justify-center overflow-hidden rounded-2xl border border-white/10"
         style={bgStyle}
       >
         <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
 
-        <div className="relative z-10 flex h-full w-full items-start justify-start p-5 sm:p-6">
-          <h3 className="max-w-[12ch] text-balance text-[clamp(1.9rem,2vw,2.6rem)] font-bold leading-[1.02] tracking-[-0.05em] text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)]">
+        <div className="relative z-10 w-full p-5 text-center sm:p-6">
+          <h3 className="max-w-[12ch] text-balance text-center text-[clamp(1.9rem,2vw,2.6rem)] font-bold leading-[1.02] tracking-[-0.05em] text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)]">
             {project.title}
           </h3>
         </div>
