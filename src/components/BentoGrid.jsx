@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProjectCard from './ProjectCard';
 import CircularGallery from './CircularGallery';
-import { projects as siteProjects, toGalleryItems } from '../data/site.js';
+import { projects as siteProjects, toGalleryItems, contact, subdomains } from '../data/site.js';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -50,6 +50,7 @@ function ViewToggle({ view, onChange }) {
 
 export default function BentoGrid({ projects = siteProjects, className = '' }) {
   const [viewMode, setViewMode] = useState('grid');
+  const connectLink = subdomains.find((s) => s.label === 'Connect')?.href || contact.githubUrl;
 
   return (
     <section
@@ -97,6 +98,13 @@ export default function BentoGrid({ projects = siteProjects, className = '' }) {
             {projects.map((project, i) => (
               <ProjectCard key={project.id || project.title + i} project={project} index={i} />
             ))}
+          </div>
+        )}
+
+        {/* ── Footer note + network ── */}
+        {viewMode === 'grid' && (
+          <div className="mt-auto pt-2 text-center">
+            <div className="h-5" aria-hidden="true" />
           </div>
         )}
       </div>
