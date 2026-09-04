@@ -1,23 +1,23 @@
 import { useState } from 'react';
 import ProjectCard from './ProjectCard';
 import CircularGallery from './CircularGallery';
-import { projects as siteProjects, toGalleryItems, contact, subdomains } from '../data/site.js';
+import { projects as siteProjects, toGalleryItems } from '../data/site.js';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
 const CircularIcon = ({ active }) => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="8" cy="8" r="5" stroke={active ? '#ffffff' : '#525252'} strokeWidth="1.5"/>
-    <circle cx="8" cy="8" r="2" fill={active ? '#ffffff' : '#525252'}/>
+    <circle cx="8" cy="8" r="5" stroke={active ? '#0a0a0a' : '#525252'} strokeWidth="1.5"/>
+    <circle cx="8" cy="8" r="2" fill={active ? '#0a0a0a' : '#525252'}/>
   </svg>
 );
 
 const GridIcon = ({ active }) => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="1" y="1" width="6" height="6" rx="1.5" fill={active ? '#ffffff' : '#525252'} />
-    <rect x="9" y="1" width="6" height="6" rx="1.5" fill={active ? '#ffffff' : '#525252'} />
-    <rect x="1" y="9" width="6" height="6" rx="1.5" fill={active ? '#ffffff' : '#525252'} />
-    <rect x="9" y="9" width="6" height="6" rx="1.5" fill={active ? '#ffffff' : '#525252'} />
+    <rect x="1" y="1" width="6" height="6" rx="1.5" fill={active ? '#0a0a0a' : '#525252'} />
+    <rect x="9" y="1" width="6" height="6" rx="1.5" fill={active ? '#0a0a0a' : '#525252'} />
+    <rect x="1" y="9" width="6" height="6" rx="1.5" fill={active ? '#0a0a0a' : '#525252'} />
+    <rect x="9" y="9" width="6" height="6" rx="1.5" fill={active ? '#0a0a0a' : '#525252'} />
   </svg>
 );
 
@@ -97,39 +97,6 @@ export default function BentoGrid({ projects = siteProjects, className = '' }) {
             {projects.map((project, i) => (
               <ProjectCard key={project.id || project.title + i} project={project} index={i} />
             ))}
-          </div>
-        )}
-
-        {/* ── Footer note + network ── */}
-        {viewMode === 'grid' && (
-          <div className="mt-auto pt-2 text-center">
-            <p className="text-[13px] text-zinc-500">
-              Want the full story behind each build?{' '}
-              <a
-                href={contact.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-white underline decoration-white/20 underline-offset-4 hover:decoration-white"
-              >
-                Browse GitHub →
-              </a>
-            </p>
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px]">
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-zinc-600">
-                Network
-              </span>
-              {subdomains.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-zinc-500 transition-colors hover:text-white"
-                >
-                  {s.label} ↗
-                </a>
-              ))}
-            </div>
           </div>
         )}
       </div>
